@@ -8,6 +8,15 @@ async function update(id, isDone, refresh) {
     mode: "no-cors",
     body: JSON.stringify({ id, isDone }),
   });
+
+  refresh();
+}
+
+async function deleteTodo(id, refresh) {
+  await fetch(`/api/todo/delete?id=${id}`, {
+    method: "DELETE",
+    //mode: "no-cors",
+  });
   refresh();
 }
 
@@ -22,7 +31,9 @@ export default function Todo({ todo }) {
         checked={todo.isDone}
       />
       {todo.name}
-      <button>Delete</button>
+      <button onClick={() => deleteTodo(todo.id, router.refresh)}>
+        Delete
+      </button>
     </div>
   );
 }
